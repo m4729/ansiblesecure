@@ -1,15 +1,6 @@
 plugin: azure_rm
-# Set to false if you don't want to use cached results
 cache: false
-
-# Use auto-detected authentication based on provided env vars
 auth_source: msi
-
-# Specify one or more resource groups (adjust as needed)
-#include_vm_resource_groups:
-#  - myResourceGroup
-
-# Use filters to include only hosts with the tag "ansible" equal to "adds"
-# The exact filter syntax may vary; consult the Azure RM inventory documentation.
+cloud: "AzureCloud"           # Ensure this is quoted as a string
 filters:
   - "tagName eq 'ansible' and tagValue eq 'adds'"
