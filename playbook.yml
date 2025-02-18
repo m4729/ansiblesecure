@@ -1,0 +1,9 @@
+---
+- name: Install Windows Features on Azure VMs
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Install IIS
+      win_feature:
+        name: Web-Server
+        state: present

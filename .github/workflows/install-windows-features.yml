@@ -1,0 +1,29 @@
+name: Install Windows Features
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  install_features:
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Python Environment
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible[azure]
+          
+      - name: Run Ansible Playbook
+        env:
+          # Azure authentication for the dynamic inventory using a user-assigned managed identity
+          AZURE_USE_MSI: "true"
+          AZURE_MANAGED_IDENTITY_ID: ${{ secrets.AZURE_MANAGED_IDENTITY_ID }}  # Your identity's client/application ID
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          # Credentials for connecting to target Windows VMs (using WinRM, for example)
+          ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
+          ANSIBLE_PASSWORD: ${{ secrets.ANSIBLE_PASSWORD }}
+        run: |
+          ansible-playbook playbook.yml -i inventory/azure_rm.yml
