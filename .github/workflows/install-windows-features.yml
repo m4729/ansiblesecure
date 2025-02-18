@@ -23,6 +23,7 @@ jobs:
           pip install ansible[azure]
           
       - name: Run Ansible Playbook
+        shell: cmd
         env:
           # Azure authentication using a user-assigned managed identity
           AZURE_USE_MSI: "true"
@@ -33,6 +34,8 @@ jobs:
           ANSIBLE_PASSWORD: ${{ secrets.ANSIBLE_PASSWORD }}
           PYTHONUTF8: "1"            # Force Python to use UTF-8 encoding
           PYTHONIOENCODING: "utf-8"    # Force Python to use UTF-8 encoding
+          LANG: "en_US.UTF-8"          # Set locale variables
+          LC_ALL: "en_US.UTF-8"
         run: |
           chcp 65001
           ansible-playbook playbook.yml -i inventory/azure_rm.yml
