@@ -2,3 +2,5 @@
 ansible_connection: winrm
 ansible_winrm_transport: ntlm
 ansible_winrm_server_cert_validation: ignore
+ansible_user: "{{ lookup('env', 'ANSIBLE_USER') }}"
+ansible_password: "{{ lookup('env', 'ANSIBLE_PASSWORD') }}"
