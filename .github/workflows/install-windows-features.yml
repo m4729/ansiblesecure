@@ -31,5 +31,6 @@ jobs:
           # Credentials for connecting to the target Windows VMs (via WinRM or similar)
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
           ANSIBLE_PASSWORD: ${{ secrets.ANSIBLE_PASSWORD }}
+          PYTHONIOENCODING: "utf-8"    # Force Python to use UTF-8 encoding
         run: |
           ansible-playbook playbook.yml -i inventory/azure_rm.yml
