@@ -1,6 +1,6 @@
 plugin: azure_rm
 cache: false
 auth_source: msi
-cloud: "AzureCloud"           # Ensure this is quoted as a string
+include_vm_resource_groups: []
 filters:
   - "tagName eq 'ansible' and tagValue eq 'adds'"
