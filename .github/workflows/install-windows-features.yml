@@ -38,4 +38,4 @@ jobs:
           LC_ALL: "en_US.UTF-8"
         run: |
           chcp 65001
-          ansible-playbook playbook.yml -i inventory/azure_rm.yml
+          python -X utf8 -m ansible.cli.playbook -i inventory/azure_rm.yml playbook.yml
