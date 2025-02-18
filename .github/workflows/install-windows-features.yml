@@ -35,4 +35,4 @@ jobs:
           ANSIBLE_PASSWORD: ${{ secrets.ANSIBLE_PASSWORD }}
         run: |
           source venv/bin/activate
-          ansible-playbook playbook.yml -i inventory/azure_rm.yml
+          ansible-playbook playbook.yml -i inventory/static_windows.ini
