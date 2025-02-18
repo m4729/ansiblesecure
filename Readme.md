@@ -1,3 +1,5 @@
+
+```
 my-ansible-project/
 ├── .github/
 │   └── workflows/
@@ -10,3 +12,4 @@ my-ansible-project/
 │       └── tasks/
 │           └── main.yml
 └── README.md                              # Project documentation
+````
