@@ -11,14 +11,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install pip for Python3
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-pip
+          sudo apt-get install -y python3-venv python3-pip
 
-      - name: Set Up Python Environment
+      - name: Set Up Python Virtual Environment
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m venv venv
+          source venv/bin/activate
+          # Upgrade pip with --break-system-packages to override the externally-managed warning
+          pip install --upgrade pip --break-system-packages
           pip install ansible[azure]
 
       - name: Run Ansible Playbook
@@ -31,4 +34,5 @@ jobs:
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
           ANSIBLE_PASSWORD: ${{ secrets.ANSIBLE_PASSWORD }}
         run: |
+          source venv/bin/activate
           ansible-playbook playbook.yml -i inventory/azure_rm.yml
