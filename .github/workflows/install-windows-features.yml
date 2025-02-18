@@ -6,10 +6,16 @@ on:
 
 jobs:
   install_features:
-    runs-on: [self-hosted, windows]
+    # Specify the labels to use your specific runner
+    runs-on: [self-hosted, windows, pmff-ansrunner-]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
       - name: Set Up Python Environment
         run: |
@@ -18,11 +24,11 @@ jobs:
           
       - name: Run Ansible Playbook
         env:
-          # Azure authentication for the dynamic inventory using a user-assigned managed identity
+          # Azure authentication using a user-assigned managed identity
           AZURE_USE_MSI: "true"
-          AZURE_MANAGED_IDENTITY_ID: ${{ secrets.AZURE_MANAGED_IDENTITY_ID }}  # Your identity's client/application ID
+          AZURE_MANAGED_IDENTITY_ID: ${{ secrets.AZURE_MANAGED_IDENTITY_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          # Credentials for connecting to target Windows VMs (using WinRM, for example)
+          # Credentials for connecting to the target Windows VMs (via WinRM or similar)
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
           ANSIBLE_PASSWORD: ${{ secrets.ANSIBLE_PASSWORD }}
         run: |
