@@ -16,21 +16,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3-venv python3-pip
 
-      - name: Set Up Python Virtual Environment
+      - name: Set Up Python Virtual Environment and Install Ansible
         run: |
           python3 -m venv venv
           source venv/bin/activate
-          # Upgrade pip with --break-system-packages to override the externally-managed warning
           pip install --upgrade pip --break-system-packages
-          pip install ansible[azure]
+          pip install ansible[azure] pywinrm
+          ansible-galaxy collection install azure.azcollection
 
       - name: Run Ansible Playbook
         env:
-          # Azure authentication using a user-assigned managed identity
           AZURE_USE_MSI: "true"
           AZURE_MANAGED_IDENTITY_ID: ${{ secrets.AZURE_MANAGED_IDENTITY_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          # Credentials for connecting to the target Windows VMs (via WinRM)
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
           ANSIBLE_PASSWORD: ${{ secrets.ANSIBLE_PASSWORD }}
         run: |
